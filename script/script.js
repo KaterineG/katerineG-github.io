@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       })
     }
+
     /*снимем обводку у кнопок слайдера*/
     if (event.target.className != 'gallery-svg-fill') {
 
@@ -42,6 +43,11 @@ document.addEventListener('DOMContentLoaded', function () {
         elem.classList.remove('.btn_focus');
 
       })
+    }
+    const screenWidth = window.screen.width;
+
+    if(screenWidth <= 320){
+      document.querySelector('.contacts__submit').textContent = "Заказать";
     }
   });
 
@@ -114,34 +120,30 @@ const swiperGalery = new Swiper('.gallery__swiper-container', {
   },
   slideClass: 'gallery__swiper-slide',
   // Default parameters
-  slidesPerView: 1,
-  spaceBetween: 10,
+  slidesPerView: 3,
+  spaceBetween: 50,
   // Responsive breakpoints
   breakpoints: {
     // when window width is >= 320px
-
     1920: {
       slidesPerView: 3,
       spaceBetween: 50
     },
-    1024: {
+    1025: {
       slidesPerView: 3,
-      spaceBetween: 34
+      spaceBetween: 50
     },
-    // when window width is >= 640px
-    640: {
+    769: {
       slidesPerView: 2,
       spaceBetween: 34
-    },    // when window width is >= 480px
-    480: {
-      slidesPerView: 1,
-      spaceBetween: 10
     },
-    320: {
-      slidesPerView: 1,
-      spaceBetween: 10
+    321: {
+      slidesPerView: 2,
+      spaceBetween: 34
+    },
+    120:{
+      slidesPerView: 1
     }
-
 
   }
 });
@@ -167,36 +169,29 @@ document.querySelectorAll('.catalog__button').forEach(function (btnFlag) {
 
 
 document.querySelectorAll('.accordion__block').forEach(function (head) {
-  console.log(head);
+
   head.addEventListener('click', function () {
 
     emptyCard();
     //выделим все заголовки и снимем класс открытый
     document.querySelectorAll('.accordion__block').forEach(function (ab) {
       ab.classList.remove('accordion__block-open');
+      ab.classList.remove('accordionload');
     });
 
-    head.classList.add('accordion__block-open');
+    head.classList.toggle('accordion__block-open');
 
   })
   //установка поворота стрелочки
   head.addEventListener('click', function (elem) {
     const num = elem.currentTarget.dataset.block;
     const button = document.querySelector(`[data-button="${num}"]`); //кнопка
-
-    if (button.classList.contains('active')) {
-      button.classList.remove('active');
-    } //если установлен поворот, то просто снимаем
-    else {
-      document.querySelectorAll('.accordion__button').forEach(function (activBtn) {
-        activBtn.classList.add('rotator'); //снимаем актив у всех
-      })
-      button.classList.remove('rotator'); //добавляем актив к текущему выбору
-      //////добавляем открытый класс
-
-
-
-    }
+ 
+ 
+      button.classList.toggle('rotator');
+      button.classList.toggle('norotator');
+     //если установлен поворот, то просто снимаем
+    
     /*фокусируем на первой кнопке и ставим картинку*/
     let buttons = document.querySelectorAll('.accordion__btn');
     for (let buttonItem of buttons) {
@@ -214,14 +209,19 @@ document.querySelectorAll('.accordion__block').forEach(function (head) {
 /*accordion */
 
 $(function () {
-  $("#accordion").accordion({ heightStyle: "content" });
+  $("#accordion").accordion({ heightStyle: "content",
+  collapsible: true });
 });
 /*поворот стрелочки аккордеона клик на хедере */
 
+/*
+$( function() {
+  $( "#accordion" ).accordion({
+    collapsible: true
+  });
+} );
 
-
-
-
+*/
 
 document.querySelectorAll('.gallery-svg-fill').forEach(function (button) {
   button.addEventListener('click', function (e) {
@@ -240,52 +240,77 @@ const swiperEvents = new Swiper('.events__swiper', {
     prevEl: '.events__swiper-button-prev',
   },
   slideClass: 'events__swiper-slide',
-
   pagination: {
     el: '.events__swiper-pagination',
     type: 'bullets',
   },
-  // Default parameters
-  slidesPerView: 1,
-  spaceBetween: 10,
-  // Responsive breakpoints
+  slidesPerView: 3,
+  spaceBetween: 50,
+  // when window width is >= 320px
   breakpoints: {
-    // when window width is >= 320px
-
-    320: {
-      slidesPerView: 1,
-      spaceBetween: 40,
-
-    },
-    1024: {
-      slidesPerView: 3,
-      spaceBetween: 34
-    },
     1920: {
       slidesPerView: 3,
       spaceBetween: 50
+    },
+    1025: {
+      slidesPerView: 3,
+      spaceBetween: 50
+    },
+    // when window width is >= 640px
+    769: {
+      slidesPerView: 3,
+      spaceBetween: 27
+    },    // when window width is >= 480px
+    480: {
+      slidesPerView: 2,
+      spaceBetween: 34
+     
+    },
+    120: {
+      slidesPerView:1
     }
+
   }
 });
 
 /*красим точку в выборе */
 
-
+function addcheck(elem) {
+ /* document.querySelectorAll('.option__item').forEach(function (el) {
+    el.classList.add('optionchecked');
+    el.classList.remove('defaultchecked');
+  });*/
+  elem.currentTarget.classList.toggle('optionchecked');
+}
 document.querySelectorAll('.option__item').forEach(function (option) {
   option.addEventListener('click', function (el) {
-    document.querySelectorAll('.option__item').forEach(function (e) {
-      e.classList.remove('option__checked');
-    });
-    el.currentTarget.classList.add('option__checked');
+    addcheck(el);
 
   });
 });
 
-const projectswiper = new Swiper('.project__swiper', {
+const projectwiper = new Swiper('.project__swiper', {
   // Optional parameters
   loop: true,
   slidesPerView: 3,
   spaceBetween: 50,
+  breakpoints: {
+    1025: {
+      slidesPerView: 3,
+      spaceBetween: 50
+    },
+    769: {
+      slidesPerView: 2,
+      spaceBetween: 50
+    },
+    481: {
+      slidesPerView: 2,
+      spaceBetween: 34
+    },
+    120: {
+      slidesPerView:1
+    }
+  },
   // If we need pagination
   pagination: {
     el: 'project__swiper-pagination',
@@ -295,7 +320,9 @@ const projectswiper = new Swiper('.project__swiper', {
   navigation: {
     nextEl: '.project__swiper-button-next',
     prevEl: '.project__swiper-button-prev',
-  },
+  }
+
+
 
 });
 
@@ -312,7 +339,7 @@ document.querySelectorAll('.project__swiper-slide').forEach(function (el) {
 
   })
 });
-document.querySelector('.callback__form').addEventListener('submit', function (event) {
+document.querySelector('.contacts__form').addEventListener('submit', function (event) {
   event.preventDefault();
   let namevalue = document.querySelector('.contacts__name');
   let tel = document.querySelector('.contacts__tel');
@@ -339,3 +366,35 @@ document.querySelector('.header__burger').addEventListener('click', function () 
 document.querySelector('.header__close').addEventListener('click', function () {
   document.querySelector('.header__mobil').style.display = 'none';
 })
+
+
+
+
+/**tab-event */
+document.addEventListener('keyup', function (event) {
+
+  if (event.key == 'Tab' && event.target.classList.value == 'option__check') {
+
+    document.querySelectorAll('.option__item').forEach(function (e) {
+      e.classList.remove('defaultchecked');
+      e.classList.remove('optionchecked');
+
+    });
+    event.target.parentNode.classList.toggle('optionchecked');
+  }
+});
+
+new tippy('#project__tooltip1', {
+  content: "Пример современных тенденций - современная методология разработки",
+  theme: 'tomato',
+});
+
+new tippy('#project__tooltip2', {
+  content: "Приятно, граждане, наблюдать, как сделанные на базе аналитики выводы вызывают у вас эмоции",
+  theme: 'tomato',
+});
+
+new tippy('#project__tooltip3', {
+  content: "В стремлении повысить качество",
+  theme: 'tomato',
+});

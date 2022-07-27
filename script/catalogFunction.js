@@ -74,7 +74,7 @@
             button.setAttribute('data-artist', i);
             parent.appendChild(li);
             li.appendChild(button);
-            button.setAttribute('aria-label','Кнопка показа информации по художнику');
+            button.setAttribute('aria-label',`показа информации по художнику ${countres[num][i][j].name}`);
 
             /*Вешаем событие по художникам */
             button.addEventListener('click', function (element) {
@@ -112,17 +112,14 @@
               for (let buttonItem of buttons) {
                 buttonItem.classList.remove('accordion__btnViolet');
               };
-              element.currentTarget.classList.add('accordion__btnViolet');
+             // element.currentTarget.classList.add('accordion__btnViolet');
 
 
             });
 
             if (j === 11) {
-
-              button.classList.add('accordion__btnViolet');
-
               button.click();
-
+              button.classList.add('accordion__btnViolet');
             }
 
           }
